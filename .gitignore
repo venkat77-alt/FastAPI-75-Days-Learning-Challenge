@@ -1,0 +1,8 @@
+fastapi_venv/
+.venv/
+venv/
+
+__pycache__/
+*.pyc
+
+simple sel code for login page/
