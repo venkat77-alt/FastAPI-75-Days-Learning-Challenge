@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter,HTTPException
 from fastapi import Query as query
 from fastapi import Path as path
 
@@ -133,6 +133,62 @@ async def get_order(order_id: int|None = path(..., description="The ID of the or
     for order in orders:
         if order["id"] == order_id:
             return order
-    return {
-        "message": "Order not found"
+    raise HTTPException(
+            status_code=404,
+            detail="product not found"
+        )
+
+
+@router.post("/")
+async def create_order(
+    
+    item:str,
+    quantity:int
+):
+    new_id=max(order["id"] for order in orders)+1
+
+    new_order={
+        "id":new_id,
+        "item":item,
+        "quantity":quantity
+    }
+
+    orders.append(new_order)
+    return{
+        "message":"order created succesfully",
+        "order":new_order
+    }
+
+
+"===updating a order==="
+@router.put("/{id}")
+async def update_order(
+    id:int,
+    item:str,
+    quantity:int
+):
+    for order in orders:
+        if order["id"]==id:
+            order["item"]=item
+            order["quantity"]=quantity
+
+            return{
+                "message":"order updtes successfully",
+                "order":order
             }
+    raise HTTPException(status_code=404,detail="product not found")
+
+
+"=====delete product====="
+@router.delete("/{id}")
+async def delete_order(id:int):
+    for order in orders:
+        if order["id"]==id:
+            orders.remove(order)
+
+            return{
+                "message":"order deleted successfully",
+                "deleted_order":order
+            }
+
+    raise HTTPException(status_code=404,detail="product not found")

@@ -185,3 +185,77 @@ async def get_products(id : int|None = path(..., description="The ID of the prod
         status_code=404,
         detail="product not found"
     )
+
+"=====posting a new product into exiting product list====="
+@router.post("/")
+async def add_product(
+    item:str,
+    category:str,
+    price:int,
+    stock:int
+):
+    new_id=max(product["id"] for product in products)+1
+
+    new_product={
+        "id":new_id,
+        "item":item,
+        "category":category,
+        "price":price,
+        "stock":stock
+    }
+    products.append(new_product)
+    return {
+        "message":"the product created successfully",
+        "product":new_product
+    }
+
+
+"===updating a product==="
+@router.put("/{id}")
+async def update_product(
+    id:int,
+    item:str,
+    category:str,
+    price:int,
+    stock:int
+):
+    for product in products:
+        if product["id"]==id:
+            product["item"]=item
+            product["category"]=category
+            product["price"]=price
+            product["stock"]=stock
+            return {
+                "message":"product updated successfullly",
+                "product":product
+            }
+    raise HTTPException(
+        status_code=404,
+        detail="product not found"
+    )
+
+
+"===deleting a product==="
+@router.delete("/{id}")
+async def delete_product(id:int):
+    for product in products:
+        if product["id"]==id:
+            products.remove(product)
+
+            return{
+                "message":"product deleted successfully",
+                "deleted_product":product
+            }
+    raise HTTPException(
+        status_code=404,
+        detail="product not found"
+    )
+
+
+"=====sample general exceptiion testing endpoint===="
+@router.get("/test-error/{num}")
+async def test_error(num:int):
+
+    result = num / 0
+
+    return result
