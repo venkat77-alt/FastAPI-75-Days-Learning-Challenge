@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter,HTTPException
 from fastapi import Query as query
 from fastapi import Path as path
 
@@ -181,7 +181,7 @@ async def get_products(id : int|None = path(..., description="The ID of the prod
     for product in products:
         if product["id"]== id:
             return product
-    return {
-        "message":"product not found"
-        }
-    
+    raise HTTPException(
+        status_code=404,
+        detail="product not found"
+    )
