@@ -28,5 +28,5 @@ async def Http_middleware(request: Request, call_next):
     print("Headers:", response.headers)     #response headers
 
     print("Process Time:", process_time)
-    print("Response background:",response.background)      #resonse background
+    print("Response background:",response.background)      #response background
     return response
