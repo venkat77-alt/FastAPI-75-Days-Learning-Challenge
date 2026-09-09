@@ -8,7 +8,7 @@ from Middleware.middleware import Http_middleware
 from Exception_handler.exception_handler import global_http_exception_handler,global_general_exception_handler
 
 
-app = FastAPI(title="Middleware, Global Exception handler", description="it is day 4 learning modules form my 75 days fastapi learniing challenge. tooday's topic is pydantic v2.")
+app = FastAPI(title="Pydantic v2", description="it is day 4 learning modules form my 75 days fastapi learniing challenge. tooday's topic is pydantic v2.")
 
 @app.middleware("http")
 async def Application_middleware(request: Request, call_next):
