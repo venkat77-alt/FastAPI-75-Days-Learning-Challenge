@@ -38,6 +38,6 @@ async def create_user(credentials: create_user):
 async def login(credentials:validate_user):
     for user in users:
         if user["username"] == credentials.username and user["password"] == credentials.password:
-            return "Login successful"
+            return {"message":"Login successful"}
                    
     return {"message": "Invalid username or password"}
