@@ -4,6 +4,7 @@ from schemas.request_schema import suppelier
 
 
 class productsResponse(BaseModel):
+    id:int
     item:str
     category:str
     price:int
